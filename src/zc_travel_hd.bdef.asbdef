@@ -1,0 +1,13 @@
+projection;
+strict ( 2 );
+
+define behavior for zc_travel_hd //alias <alias_name>
+{
+  use create;
+  use update;
+  use delete;
+
+  use action acceptTravel;
+  use action rejectTravel;
+  use action copyTravel;
+}

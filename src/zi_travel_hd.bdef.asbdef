@@ -1,0 +1,49 @@
+managed; // implementation in class zbp_i_travel_lekhansh unique;
+strict ( 2 );
+
+define behavior for ZI_TRAVEL_hd //alias <alias_name>
+implementation in class zcl_bp_travel_hd unique
+persistent table ztravel
+lock master
+authorization master ( instance )
+etag master LastChangedAt
+early numbering
+{
+
+  field ( readonly ) TravelId, LastChangedBy, CreatedBy, CreatedAt, LastChangedAt;
+  field ( mandatory ) AgencyId, CustomerId, BeginDate, EndDate, OverallStatus, BookingFee, CurrencyCode;
+  action ( features : instance ) acceptTravel result [1] $self;  // Instance action
+  action ( features : instance ) rejectTravel result [1] $self;  // Instance action
+
+  factory action copyTravel [1];  // factory action
+
+  internal action recalcTotPrice;  // internal action
+
+  validation validateCustomer on save { create; field CustomerId; }
+  validation validateDate on save { create; field BeginDate, EndDate;}
+
+
+  create ( authorization : global );
+  update;
+  delete;
+//  association _booking { create( features : instance ); }
+
+
+  mapping for ztravel
+    {
+      TravelId      = travel_id;
+      AgencyId      = agency_id;
+      CustomerId    = customer_id;
+      BeginDate     = begin_date;
+      EndDate       = end_date;
+      BookingFee    = booking_fee;
+      TotalPrice    = total_price;
+      CurrencyCode  = currency_code;
+      Description   = description;
+      OverallStatus = overall_status;
+      CreatedBy     = created_by;
+      CreatedAt     = created_at;
+      LastChangedBy = last_changed_by;
+      LastChangedAt = last_changed_at;
+    }
+}

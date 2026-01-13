@@ -1,0 +1,4 @@
+@EndUserText.label: 'travel service definition'
+define service ZKH_SD_TRAVEL {
+  expose zc_travel_hd;
+}
